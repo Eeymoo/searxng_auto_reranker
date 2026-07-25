@@ -23,16 +23,25 @@ tests/                         Unit & integration tests
 
 ## Quick start
 
-See [`docs/INSTALL.md`](docs/INSTALL.md) for the full guide. In short:
+Two deployment modes — pick the one that matches your situation:
 
-1. Start PostgreSQL and apply `migrations/001_init.sql`.
-2. Drop the plugin into your SearXNG instance and register it in `settings.yml`.
-3. Run the `config-ui` container with `AUTORERANKER_TOKEN` and `DATABASE_URL` set.
-4. Configure rules in the UI; they take effect within the TTL.
+### A. I already have SearXNG running (most common) → **[Overlay deploy guide](docs/OVERLAY_DEPLOY.md)**
+
+Starts just PostgreSQL + config-ui in containers, then mounts the plugin into your existing SearXNG with two volume lines. Your existing settings, engines, themes, Redis are untouched.
+
+### B. Fresh SearXNG + plugin, all in one compose → [Install guide](docs/INSTALL.md)
+
+```bash
+cd docker
+docker compose --profile full up -d   # starts SearXNG + PG + config-ui
+```
+
+After either path, configure rules at `http://<host>:3000` (sign in with your `AUTORERANKER_TOKEN`).
 
 ## Documentation
 
-- [Install guide](docs/INSTALL.md)
+- [Overlay deploy (existing SearXNG)](docs/OVERLAY_DEPLOY.md) — **start here if you already run SearXNG**
+- [Install guide (fresh stack)](docs/INSTALL.md)
 - [Configuration guide](docs/CONFIG_GUIDE.md)
 - [Vector service guide](docs/VECTOR_SERVICE.md)
 - [Troubleshooting](docs/TROUBLESHOOTING.md)

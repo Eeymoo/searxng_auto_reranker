@@ -1,5 +1,12 @@
 version: "3.9"
 
+# By default this compose starts ONLY PostgreSQL + config-ui, because most
+# users already have their own SearXNG container and just want to overlay the
+# plugin. If you want this compose to also bring up a fresh SearXNG instance,
+# run:   docker compose --profile full up -d
+#
+# See docs/OVERLAY_DEPLOY.md for the full "I already have SearXNG" walkthrough.
+
 services:
   postgres:
     image: postgres:16-alpine
@@ -19,7 +26,28 @@ services:
       timeout: 3s
       retries: 10
 
+  config-ui:
+    build:
+      context: ../config-ui
+      dockerfile: ../docker/config-ui.Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://auto_reranker:auto_reranker@postgres:5432/auto_reranker
+      # REQUIRED: override on deploy. Generate with `openssl rand -hex 32`.
+      AUTORERANKER_TOKEN: change-me-to-a-long-random-secret
+    ports:
+      - "3000:3000"
+
+  # ------------------------------------------------------------------ #
+  # OPTIONAL bundled SearXNG. Disabled unless you pass --profile full.
+  # Use this only if you want a fresh SearXNG instead of overlaying the
+  # plugin onto an existing instance.
+  # ------------------------------------------------------------------ #
   searxng:
+    profiles: ["full"]
     image: searxng/searxng:latest
     restart: unless-stopped
     depends_on:
@@ -34,21 +62,6 @@ services:
       - ./settings.yml:/etc/searxng/settings.yml:ro
     ports:
       - "8080:8080"
-
-  config-ui:
-    build:
-      context: ../config-ui
-      dockerfile: ../docker/config-ui.Dockerfile
-    restart: unless-stopped
-    depends_on:
-      postgres:
-        condition: service_healthy
-    environment:
-      DATABASE_URL: postgresql://auto_reranker:auto_reranker@postgres:5432/auto_reranker
-      # REQUIRED: override on deploy. Must match the token the plugin expects.
-      AUTORERANKER_TOKEN: change-me-to-a-long-random-secret
-    ports:
-      - "3000:3000"
 
 volumes:
   pg_data:
