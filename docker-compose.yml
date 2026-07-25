@@ -1,5 +1,3 @@
-version: "3.9"
-
 # Run from the repository root:
 #   docker compose up -d     # searxng + postgres + config-ui
 #
