@@ -1,0 +1,26 @@
+# SearXNG settings.yml (minimal Auto Reranker additions).
+# This snippet shows ONLY the fields that must be merged into your existing
+# settings.yml. Keep the rest of your settings (engines, server, redis, ...)
+# unchanged and only add/merge the two blocks below.
+
+use_default_settings: true
+
+# 1. Register the plugin by its fully-qualified class name.
+plugins:
+  - searx.plugins.auto_reranker.plugin.AutoRerankerPlugin
+
+# 2. Configure it. All keys live under `auto_reranker:`.
+auto_reranker:
+  # PostgreSQL connection (same DB as config-ui).
+  database_url: postgresql://auto_reranker:auto_reranker@postgres:5432/auto_reranker
+
+  # TTL of the in-memory config cache (seconds). Lower = fresher, more DB load.
+  cache_ttl: 30
+
+  # Optional vector / reranker channel.
+  vector_enabled: false
+  vector_base_url: ""            # e.g. http://localhost:8000 or https://api.cohere.ai
+  vector_api_key: ""             # set if your service requires a bearer token
+  vector_protocol: "generic"     # generic | jina | cohere
+  vector_top_n: 20
+  vector_timeout: 0.5            # seconds; on timeout we silently fall back

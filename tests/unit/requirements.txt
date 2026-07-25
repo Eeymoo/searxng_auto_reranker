@@ -1,0 +1,2 @@
+# Test dependencies for the Python plugin.
+pytest>=8.0

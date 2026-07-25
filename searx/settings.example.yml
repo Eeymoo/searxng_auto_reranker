@@ -1,0 +1,25 @@
+# Copy / merge these two blocks into your SearXNG ``settings.yml``.
+# Only the Auto Reranker additions are shown; keep all other settings.
+
+use_default_settings: true
+
+# Register the plugin by fully-qualified class name.
+plugins:
+  - searx.plugins.auto_reranker.plugin.AutoRerankerPlugin
+
+# Plugin configuration block.
+auto_reranker:
+  # PostgreSQL DSN (same DB as config-ui). Env-var fallback:
+  #   AUTORERANKER_DATABASE_URL / DATABASE_URL
+  database_url: postgresql://auto_reranker:auto_reranker@localhost:5432/auto_reranker
+
+  # In-memory config cache TTL in seconds (default 30).
+  cache_ttl: 30
+
+  # --- Optional vector / reranker channel ---
+  vector_enabled: false
+  vector_base_url: ""              # e.g. http://localhost:8000  or  https://api.cohere.ai
+  vector_api_key: ""               # bearer token; left empty -> no Authorization header
+  vector_protocol: "generic"       # generic | jina | cohere  (see docs/VECTOR_SERVICE.md)
+  vector_top_n: 20                 # only re-rank the top-N rule-re-ranked results
+  vector_timeout: 0.5              # seconds; on timeout we silently fall back
