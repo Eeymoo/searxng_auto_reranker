@@ -1,11 +1,12 @@
 version: "3.9"
 
 # Run from the repository root:
-#   docker compose up -d                 # PG + config-ui (overlay mode)
-#   docker compose --profile full up -d  # + a fresh SearXNG instance
+#   docker compose up -d     # searxng + postgres + config-ui
 #
-# See docs/OVERLAY_DEPLOY.md for adding the plugin to an existing SearXNG,
-# and docs/INSTALL.md for a fresh-stack deployment.
+# Override AUTORERANKER_TOKEN before bringing up config-ui:
+#   echo "AUTORERANKER_TOKEN=$(openssl rand -hex 32)" > .env
+#
+# See docs/INSTALL.md for the full walkthrough.
 
 services:
   postgres:
@@ -29,7 +30,7 @@ services:
   config-ui:
     build:
       context: ./config-ui
-      dockerfile: ../config-ui.Dockerfile
+      dockerfile: Dockerfile
     restart: unless-stopped
     depends_on:
       postgres:
@@ -47,7 +48,6 @@ services:
   # plugin onto an existing instance.
   # ------------------------------------------------------------------ #
   searxng:
-    profiles: ["full"]
     image: searxng/searxng:latest
     restart: unless-stopped
     depends_on:
