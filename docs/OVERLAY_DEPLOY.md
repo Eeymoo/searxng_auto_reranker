@@ -58,7 +58,7 @@ echo "你的 token: $TOKEN"
 
 ## 步骤 2：起 PG + config-ui 容器
 
-仓库里的 `docker/docker-compose.yml` 已经定义了这两个服务（外加 SearXNG，但你**不需要**它，下面会改）。
+仓库根目录的 `docker-compose.yml` 已经定义了这两个服务（外加 SearXNG，但你**不需要**它，下面会改）。
 
 ```bash
 cd /opt/auto-reranker/searxng_auto_reranker/docker

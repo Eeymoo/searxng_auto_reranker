@@ -32,7 +32,6 @@ Starts just PostgreSQL + config-ui in containers, then mounts the plugin into yo
 ### B. Fresh SearXNG + plugin, all in one compose → [Install guide](docs/INSTALL.md)
 
 ```bash
-cd docker
 docker compose --profile full up -d   # starts SearXNG + PG + config-ui
 ```
 

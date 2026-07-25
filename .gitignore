@@ -10,6 +10,7 @@ __pycache__/
 config-ui/node_modules/
 config-ui/.next/
 config-ui/out/
+config-ui/tsconfig.tsbuildinfo
 node_modules/
 
 # ---- Build artifacts ----

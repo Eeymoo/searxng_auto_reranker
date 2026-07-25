@@ -21,15 +21,14 @@ This guide walks through running **SearXNG Auto Reranker** end-to-end: PostgreSQ
 
 ## Option A — docker compose (recommended)
 
-A ready-to-use compose file lives in [`../docker/docker-compose.yml`](../docker/docker-compose.yml). It brings up PostgreSQL, SearXNG and config-ui together.
+A ready-to-use compose file lives at the repository root: [`docker-compose.yml`](../docker-compose.yml). It brings up PostgreSQL, SearXNG and config-ui together.
 
 ```bash
 # 1. Set a strong token (do NOT keep the default).
 export AUTORERANKER_TOKEN=$(openssl rand -hex 32)
 
-# 2. Start everything.
-cd docker
-docker compose up -d
+# 2. Start everything (from the repo root).
+docker compose --profile full up -d
 
 # 3. Apply the schema (the compose file auto-applies 001_init.sql on first run,
 #    so this is only needed if you reuse an existing DB volume):

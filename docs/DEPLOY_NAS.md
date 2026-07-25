@@ -59,7 +59,7 @@ echo "（请记到密码管理器，后续登录 config-ui、调 API 都需要�
 
 ## 步骤 2：写本环境专用的 compose 文件
 
-**不要用仓库里的 `docker/docker-compose.yml`**（那是给全新 SearXNG 用的）。这里写一份本环境专用的，放在新位置避免混淆：
+**不要用仓库根目录的 `docker-compose.yml`**（那是给全新 SearXNG 用的）。这里写一份本环境专用的，放在新位置避免混淆：
 
 ```bash
 cat > /volume2/docker/auto-reranker/docker/compose.local.yml <<'YAML'
@@ -100,7 +100,7 @@ services:
     container_name: auto-reranker-config-ui
     build:
       context: ../config-ui
-      dockerfile: ../docker/config-ui.Dockerfile
+      dockerfile: ../config-ui.Dockerfile
     restart: unless-stopped
     depends_on:
       postgres:
