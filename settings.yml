@@ -2,14 +2,21 @@
 # This snippet shows ONLY the fields that must be merged into your existing
 # settings.yml. Keep the rest of your settings (engines, server, redis, ...)
 # unchanged and only add/merge the two blocks below.
+#
+# IMPORTANT: in SearXNG >= 2024 the `plugins:` value is a DICT, not a list:
+#     plugins:
+#       fully.qualified.PluginClass:
+#         active: true
 
 use_default_settings: true
 
-# 1. Register the plugin by its fully-qualified class name.
+# Register plugins by fully-qualified class name. If you already have other
+# plugins enabled, merge them into this dict — do NOT use a list.
 plugins:
-  - searx.plugins.auto_reranker.plugin.AutoRerankerPlugin
+  searx.plugins.auto_reranker.plugin.AutoRerankerPlugin:
+    active: true
 
-# 2. Configure it. All keys live under `auto_reranker:`.
+# Configure the Auto Reranker plugin. All keys live under `auto_reranker:`.
 auto_reranker:
   # PostgreSQL connection (same DB as config-ui).
   database_url: postgresql://auto_reranker:auto_reranker@postgres:5432/auto_reranker
