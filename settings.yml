@@ -10,6 +10,14 @@
 
 use_default_settings: true
 
+# SearXNG requires a real secret_key (it refuses to start with the default
+# 'ultrasecretkey' placeholder). This value is only used for signing local
+# sessions / cookies; rotate it (openssl rand -hex 32) and restart SearXNG
+# if you want to invalidate all sessions.
+server:
+  secret_key: "9bfea0b2480ad59d152d10f3b59682727adb76d8ed13d86e71394ea8fab95eeb"
+  bind_address: "0.0.0.0"
+
 # Register plugins by fully-qualified class name. If you already have other
 # plugins enabled, merge them into this dict — do NOT use a list.
 plugins:
